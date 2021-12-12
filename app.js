@@ -45,6 +45,18 @@ router.delete("/deleteProduct/:id", async(ctx) => {
     ctx.response.redirect("/"); // Zur Startseite weiterführen
 });
 
+router.put("/updateProduct/:id/:change", async(ctx) => {
+    let id = Number.parseInt(ctx.params.id); //Id aus dem Pfad lesen
+    let change = ctx.params.change; //Change aus dem Pfad lesen
+    let item = shoppingList.find((value) => value.id === id); //Item mit der Id in shoppingList suchen
+
+    if (item) {
+        item.name = change; //Item wird neuer Name gesetzt.
+        console.log(item.id + " hat nun den namen: " + item.name);
+    }
+    ctx.response.redirect("/"); // Zur Startseite weiterführen
+});
+
 app.use(router.routes());
 app.use(router.allowedMethods());
 
