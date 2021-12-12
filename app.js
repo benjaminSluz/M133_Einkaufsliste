@@ -41,8 +41,8 @@ router.delete("/deleteProduct/:id", async(ctx) => {
         let index = shoppingList.indexOf(item);
         shoppingList.splice(index, 1); //Item wird aus shoppingList entfernt
         console.log(item.name + " wurde gelöscht");
+        ctx.response.body = "Erfolgreich gelöscht"
     }
-    ctx.response.redirect("/"); // Zur Startseite weiterführen
 });
 
 router.put("/updateProduct/:id/:change", async(ctx) => {
