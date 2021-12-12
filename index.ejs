@@ -31,6 +31,21 @@
                     });
                     location.reload()
                 }
+
+                async function updateRequest(e, id){
+                    e.preventDefault();
+                    const item = {
+                        id: id,
+                        name: e.target.elements["input-field"].value,
+                    };
+                    console.log(item);
+                    let a = await fetch("/updateProduct/"+id.toString(), {
+                        method: "PUT",
+                        body: JSON.stringify(item)
+                    });
+                    console.log(a);
+                    location.reload()
+                }
             </script>
             <ul class="list-group" id="list">
 
@@ -38,7 +53,10 @@
 
                     <li class="list-group-item">
                         <%= products[i].name %>
-                            <button type="button" class="btn btn-primary" value="<%= i %>" onclick="deleteRequest( <%=  products[i].id %>)">- Delete </button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateProductModal<%=  products[i].id %>">
+                            = Ändern
+                        </button>
+                            <button type="button" class="btn btn-primary" onclick="deleteRequest( <%=  products[i].id %>)">- Delete </button>
                     </li>
 
                     <% } %>
@@ -90,8 +108,42 @@
         </div>
     </div>
 
+    <% for(let i=0; i < products.length; i++) { %>
 
+        <!-- Modal -->
+    <div class="modal fade" id="updateProductModal<%=  products[i].id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Hinzufügen</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+                </div>
 
+                <form onsubmit="updateRequest(event, <%=  products[i].id %>)" method="post">
+
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>Wie soll das Item nun heissen?</label>
+                            <input name="input-field" type="text" class="form-control" placeholder="Bitte trage ein Produkt ein">
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-primary">Speichern</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+        <% } %>
 </body>
 
 </html>

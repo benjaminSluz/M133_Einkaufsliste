@@ -46,16 +46,20 @@ router.delete("/deleteProduct/:id", async(ctx) => {
 });
 
 router.put("/updateProduct/:id", async(ctx) => {
-    let id = Number.parseInt(ctx.params.id); //Id aus dem Pfad lesen
-    let formContent = await ctx.request.body({ type: "form" }).value; // Input vom Formular wird übergeben
-    let change = formContent.get("name"); // name wird ausgelesen
-    let item = shoppingList.find((value) => value.id === id); //Item mit der Id in shoppingList suchen
-
-    if (item) {
-        item.name = change; //Item wird neuer Name gesetzt.
-        console.log(item.id + " hat nun den namen: " + item.name);
+    try {
+        let id = Number.parseInt(ctx.params.id); //Id aus dem Pfad lesen
+        let jsonContent = await ctx.request.body({ type: "json" }).value; // Input vom Formular wird übergeben
+        let change = jsonContent["name"]; // name wird ausgelesen
+        let item = shoppingList.find((value) => value.id === id); //Item mit der Id in shoppingList suchen
+        if (item) {
+            item.name = change; //Item wird neuer Name gesetzt.
+            console.log(item.id + " hat nun den namen: " + item.name);
+        }
+        ctx.response.body = "Erfolgreich gelöscht"
+    } catch (error) {
+        console.log(error);
     }
-    ctx.response.redirect("/"); // Zur Startseite weiterführen
+
 });
 
 app.use(router.routes());
