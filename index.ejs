@@ -20,17 +20,29 @@
         </div>
 
         <div class="card-body">
-            <ul class="list-group">
+            <script>
+                async function a() {
+                    const response = await fetch("http://localhost:8000/deleteProduct/1", {
+                       method: "DELETE",
+                       redirect: 'follow'
+                   });
+                   console.log(response);
+                }
+                
+            </script>
+            <ul class="list-group" id="list">
 
                 <% for(let i=0; i < products.length; i++) { %>
          
                      <li class="list-group-item">
                          <%= products[i].name %>
+                         <button type="button" class="btn btn-primary" value="<%= i %>" onclick="a()">- Delete </button>
                      </li>
-         
+
                  <% } %>
          
              </ul>
+             
         </div>
         
         <div class="card-footer">
