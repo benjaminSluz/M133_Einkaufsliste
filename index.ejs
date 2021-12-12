@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title>
+        <%= title %>
+    </title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -21,36 +24,35 @@
 
         <div class="card-body">
             <script>
-                async function a() {
-                    const response = await fetch("http://localhost:8000/deleteProduct/1", {
-                       method: "DELETE",
-                       redirect: 'follow'
-                   });
-                   console.log(response);
+                async function deleteRequest(id) {
+                    const response = await fetch("http://localhost:8000/deleteProduct/" + id, {
+                        method: "DELETE",
+                        redirect: 'follow'
+                    });
+                    location.reload()
                 }
-                
             </script>
             <ul class="list-group" id="list">
 
                 <% for(let i=0; i < products.length; i++) { %>
-         
-                     <li class="list-group-item">
-                         <%= products[i].name %>
-                         <button type="button" class="btn btn-primary" value="<%= i %>" onclick="a()">- Delete </button>
-                     </li>
 
-                 <% } %>
-         
-             </ul>
-             
+                    <li class="list-group-item">
+                        <%= products[i].name %>
+                            <button type="button" class="btn btn-primary" value="<%= i %>" onclick="deleteRequest( <%=  products[i].id %>)">- Delete </button>
+                    </li>
+
+                    <% } %>
+
+            </ul>
+
         </div>
-        
+
         <div class="card-footer">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newProductModal">
                 + Hinzufügen
             </button>
-  
+
         </div>
 
     </div>
@@ -58,36 +60,36 @@
     <!-- Modal -->
     <div class="modal fade" id="newProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Hinzufügen</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Hinzufügen</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            </div>
+                </div>
 
-            <form action='/addProduct' method="POST">
+                <form action='/addProduct' method="POST">
 
-                <div class="modal-body">
-                
-                    <div class="form-group">
-                        <label>Was möchtest du hinzufügen?</label>
-                        <input name="newProductName" type="text" class="form-control" placeholder="Bitte trage ein Produkt ein">
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>Was möchtest du hinzufügen?</label>
+                            <input name="newProductName" type="text" class="form-control" placeholder="Bitte trage ein Produkt ein">
+                        </div>
+
                     </div>
 
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                        <button type="submit" class="btn btn-primary">Speichern</button>
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
-                    <button type="submit" class="btn btn-primary">Speichern</button>
-                </div>
+                </form>
 
-            </form>
-
-        </div>
+            </div>
         </div>
     </div>
-    
+
 
 
 </body>
