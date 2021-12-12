@@ -45,9 +45,10 @@ router.delete("/deleteProduct/:id", async(ctx) => {
     ctx.response.redirect("/"); // Zur Startseite weiterführen
 });
 
-router.put("/updateProduct/:id/:change", async(ctx) => {
+router.put("/updateProduct/:id", async(ctx) => {
     let id = Number.parseInt(ctx.params.id); //Id aus dem Pfad lesen
-    let change = ctx.params.change; //Change aus dem Pfad lesen
+    let formContent = await ctx.request.body({ type: "form" }).value; // Input vom Formular wird übergeben
+    let change = formContent.get("name"); // name wird ausgelesen
     let item = shoppingList.find((value) => value.id === id); //Item mit der Id in shoppingList suchen
 
     if (item) {
